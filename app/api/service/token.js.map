@@ -1,0 +1,38 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\api\\service\\token.js"
+    ],
+    "names": [
+        "jwt",
+        "require",
+        "secret",
+        "module",
+        "exports",
+        "think",
+        "Service",
+        "getUserId",
+        "token",
+        "result",
+        "parse",
+        "isEmpty",
+        "user_id",
+        "verify",
+        "err",
+        "create",
+        "userInfo",
+        "sign",
+        "getUserInfo",
+        "userId",
+        "model",
+        "field",
+        "where",
+        "id",
+        "find"
+    ],
+    "mappings": ";;AAAA,MAAMA,MAAMC,QAAQ,cAAR,CAAZ;AACA,MAAMC,SAAS,kCAAf;AACAC,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,OAApB,CAA4B;AACzC;;;AAGAC,cAAUC,KAAV,EAAiB;AACb,YAAI,CAACA,KAAL,EAAY;AACR,mBAAO,CAAP;AACH;AACD,cAAMC,SAAS,KAAKC,KAAL,CAAWF,KAAX,CAAf;AACA,YAAIH,MAAMM,OAAN,CAAcF,MAAd,KAAyBA,OAAOG,OAAP,IAAkB,CAA/C,EAAkD;AAC9C,mBAAO,CAAP;AACH;AACD,eAAOH,OAAOG,OAAd;AACH;AACDF,UAAMF,KAAN,EAAa;AACT,YAAIA,KAAJ,EAAW;AACP,gBAAI;AACA,uBAAOR,IAAIa,MAAJ,CAAWL,KAAX,EAAkBN,MAAlB,CAAP;AACH,aAFD,CAEE,OAAOY,GAAP,EAAY;AACV,uBAAO,IAAP;AACH;AACJ;AACD,eAAO,IAAP;AACH;AACEC,UAAN,CAAaC,QAAb,EAAuB;AAAA;AACnB,kBAAMR,QAAQR,IAAIiB,IAAJ,CAASD,QAAT,EAAmBd,MAAnB,CAAd;AACA,mBAAOM,KAAP;AAFmB;AAGtB;AACD;;;AAGMU,eAAN,GAAoB;AAAA;;AAAA;AAChB,kBAAMC,SAAS,MAAM,MAAKZ,SAAL,EAArB;AACA,gBAAIY,UAAU,CAAd,EAAiB;AACb,uBAAO,IAAP;AACH;AACD,kBAAMH,WAAW,MAAM,MAAKI,KAAL,CAAW,MAAX,EAAmBC,KAAnB,CAAyB,CAAC,IAAD,EAAO,UAAP,EAAmB,UAAnB,EAA+B,QAA/B,EAAyC,QAAzC,EAAmD,UAAnD,CAAzB,EAAyFC,KAAzF,CAA+F;AAClHC,oBAAIJ;AAD8G,aAA/F,EAEpBK,IAFoB,EAAvB;AAGA,mBAAOnB,MAAMM,OAAN,CAAcK,QAAd,IAA0B,IAA1B,GAAiCA,QAAxC;AARgB;AASnB;AACQH,UAAN,GAAe;AAAA;;AAAA;AACX,kBAAMJ,SAAS,MAAM,OAAKC,KAAL,EAArB;AACA,gBAAIL,MAAMM,OAAN,CAAcF,MAAd,CAAJ,EAA2B;AACvB,uBAAO,KAAP;AACH;AACD,mBAAO,IAAP;AALW;AAMd;AA/CwC,CAA7C",
+    "file": "..\\..\\..\\src\\api\\service\\token.js",
+    "sourcesContent": [
+        "const jwt = require('jsonwebtoken');\nconst secret = 'sdfsdfsdf123123!ASDasdasdasdasda';\nmodule.exports = class extends think.Service {\n    /**\n     * 根据header中的x-hioshop-token值获取用户id\n     */\n    getUserId(token) {\n        if (!token) {\n            return 0;\n        }\n        const result = this.parse(token);\n        if (think.isEmpty(result) || result.user_id <= 0) {\n            return 0;\n        }\n        return result.user_id;\n    }\n    parse(token) {\n        if (token) {\n            try {\n                return jwt.verify(token, secret);\n            } catch (err) {\n                return null;\n            }\n        }\n        return null;\n    }\n\tasync create(userInfo) {\n\t    const token = jwt.sign(userInfo, secret);\n\t    return token;\n\t}\n\t/**\n\t * 根据值获取用户信息\n\t */\n\tasync getUserInfo() {\n\t    const userId = await this.getUserId();\n\t    if (userId <= 0) {\n\t        return null;\n\t    }\n\t    const userInfo = await this.model('user').field(['id', 'username', 'nickname', 'gender', 'avatar', 'birthday']).where({\n\t        id: userId\n\t    }).find();\n\t    return think.isEmpty(userInfo) ? null : userInfo;\n\t}\n    async verify() {\n        const result = await this.parse();\n        if (think.isEmpty(result)) {\n            return false;\n        }\n        return true;\n    }\n};"
+    ]
+}
