@@ -5,7 +5,7 @@
 拉取代码
 
 ```bash
-https://github.com/MG-amazing/hioshop-server-master.git
+https://github.com/MG-amazing/Server.git
 ```
 
 配置数据库链接信息
@@ -39,7 +39,7 @@ npm run start
 拉取代码
 
 ```bash
-https://github.com/MG-amazing/hioshop-admin.git
+https://github.com/MG-amazing/Admin.git
 ```
 
 安装依赖
