@@ -27,7 +27,7 @@ create database hiolabsDB
 运行sql脚本至hiolabsDB架构中
 
 ```bash
-npm install
+
 ```
 
 ```bash
@@ -56,11 +56,15 @@ node_modules/element-ui/packages/form/src/label-wrap.vue
 
 将23行代码改为以下代码
 
+
+
+
 ```js
 return ('<div class="el-form-item__label-wrap" style={style}>{ slots }</div>');
 ```
 
 该错误是由于element-ui底层错误与项目代码无关
+# 操作提示，当无法安装时把  node_modules解压到本地即可
 
 运行
 
